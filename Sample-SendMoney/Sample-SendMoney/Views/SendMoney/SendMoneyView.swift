@@ -16,10 +16,16 @@ struct SendMoneyView: View {
       VStack {
         HStack {
           Text("Amount:")
-          TextField("0.00", value: $viewModel.amountToSend, format: .currency(code: "PHP").precision(.fractionLength(2)))
-        }.font(.title).bold()
+          TextField("0.00",
+                    value: $viewModel.amountToSend,
+                    format: .currency(code: "PHP")
+                            .precision(.fractionLength(2)))
+        }.font(.title)
+          .bold()
         if viewModel.shouldShowSendMoneyFieldError {
-          Text("Send a proper amount").frame(maxWidth: .infinity, alignment: .leading).foregroundStyle(.red)
+          Text("Send a proper amount").frame(maxWidth: .infinity,
+                                             alignment: .leading)
+                                      .foregroundStyle(.red)
         }
       }
       if viewModel.isLoading {
@@ -32,6 +38,7 @@ struct SendMoneyView: View {
           if(viewModel.isSendMoneyValid) {
             viewModel.userBalance -= viewModel.amountToSend
             viewModel.shouldShowTransactionResultSheet = true
+            viewModel.amountToSend = 0.0
           }
         }.frame(maxWidth: .infinity)
           .padding(8.0)
@@ -42,8 +49,10 @@ struct SendMoneyView: View {
     }
     .padding(.horizontal, 16.0)
     .sheet(isPresented: $viewModel.shouldShowTransactionResultSheet) {
-      SendMoneyTransactionResultSheet()
-        .presentationDetents([.large])
+      let sendMoneyResultSheetViewModel = SendMoneyResultSheet.ViewModel(
+        sentAmount: viewModel.amountToSend,
+        error: nil)
+      SendMoneyResultSheet(viewModel: sendMoneyResultSheetViewModel).presentationDetents([.medium])
     }
   }
 }
