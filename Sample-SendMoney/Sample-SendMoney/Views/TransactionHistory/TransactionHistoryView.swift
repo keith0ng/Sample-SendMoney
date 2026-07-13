@@ -8,16 +8,20 @@
 import SwiftUI
 
 struct TransactionHistoryView: View {
-    var body: some View {
-      List {
-        TransactionListItemView()
-        TransactionListItemView()
-        TransactionListItemView()
+  
+  var viewModel = ViewModel()
+  
+  var body: some View {
+    List {
+      ForEach(viewModel.transactions, id: \.id) { transaction in
+        let transactionListItemViewModel = TransactionListItemView.ViewModel(transaction: transaction)
+        TransactionListItemView(viewModel: transactionListItemViewModel)
       }
-      .listStyle(.plain)
     }
+    .listStyle(.plain)
+  }
 }
 
 #Preview {
-    TransactionHistoryView()
+  TransactionHistoryView()
 }

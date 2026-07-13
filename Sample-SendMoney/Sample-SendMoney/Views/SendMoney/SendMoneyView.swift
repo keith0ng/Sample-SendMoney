@@ -9,23 +9,28 @@ import SwiftUI
 
 struct SendMoneyView: View {
   
-  @State private var shouldShowTransactionResultSheet = false
+  @ObservedObject var viewModel = ViewModel()
   
   var body: some View {
     VStack(alignment: .leading, spacing: 16.0) {
-      HStack {
-        Text("Amount:")
-        TextField("0.00", text: .constant(""))
+      VStack {
+        HStack {
+          Text("Amount:")
+          TextField("0.00", value: $viewModel.amountToSend, format: .number)
+        }
+        if viewModel.shouldShowSendMoneyFieldError {
+          Text("Send a proper amount").frame(maxWidth: .infinity, alignment: .leading)
+        }
       }
       Button("Send") {
-        shouldShowTransactionResultSheet.toggle()
+        viewModel.didAttemptToSendMoney = true
+        if(viewModel.isSendMoneyValid) {
+          viewModel.shouldShowTransactionResultSheet = true
+        }
       }
     }
     .padding(.horizontal, 16.0)
-    .sheet(isPresented: $shouldShowTransactionResultSheet,
-           onDismiss:{
-      // What happens on dismiss?
-    }) {
+    .sheet(isPresented: $viewModel.shouldShowTransactionResultSheet) {
       SendMoneyTransactionResultSheet()
         .presentationDetents([.large])
     }

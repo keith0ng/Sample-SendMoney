@@ -8,23 +8,25 @@
 import SwiftUI
 
 struct TransactionListItemView: View {
-    var body: some View {
-      VStack(alignment: .leading) {
-        Text("Amount: 1000.0")
-          .frame(maxWidth: .infinity,
-                 alignment: .leading)
-        
-        Text("Date: July 13, 2026")
-          .frame(maxWidth: .infinity,
-                 alignment: .leading)
-        
-        Text("Recepient: Michael Townley")
-          .frame(maxWidth: .infinity,
-                 alignment: .leading)
-      }
+  let viewModel: ViewModel
+  
+  var body: some View {
+    VStack(alignment: .leading) {
+      Text("Amount: \(viewModel.transaction.amount)")
+        .frame(maxWidth: .infinity,
+               alignment: .leading)
+      
+      Text("Date: \(viewModel.transaction.date)")
+        .frame(maxWidth: .infinity,
+               alignment: .leading)
+      
+      Text("Recepient: \(viewModel.transaction.recepient)")
+        .frame(maxWidth: .infinity,
+               alignment: .leading)
     }
+  }
 }
 
 #Preview {
-    TransactionListItemView()
+  TransactionListItemView(viewModel: TransactionListItemView.ViewModel(transaction: Transaction.example))
 }

@@ -9,25 +9,35 @@ import SwiftUI
 
 struct LoginView: View {
   
-  @AppStorage("isLoggedIn") private var isLoggedIn = false
-  @State private var username = ""
-  @State private var password = ""
+  @ObservedObject private var viewModel = ViewModel()
   
     var body: some View {
       VStack(alignment: .center, spacing: 16.0) {
-        HStack {
-          Text("Username:")
-          TextField("Username", text: $username)
+        VStack {
+          HStack {
+            Text("Username:")
+            TextField("Username", text: $viewModel.username)
+          }
+          if viewModel.shouldShowUsernameError {
+            Text("Username cannot be empty").frame(maxWidth: .infinity, alignment: .leading)
+          }
         }
         
-        HStack {
-          Text("Password:")
-          SecureField("Password", text: $password)
+        VStack {
+          HStack {
+            Text("Password:")
+            SecureField("Password", text: $viewModel.password)
+          }
+          if viewModel.shouldShowPasswordError {
+            Text("Password cannot be empty").frame(maxWidth: .infinity, alignment: .leading)
+          }
         }
         
         Button("Login") {
-          if !username.isEmpty && !password.isEmpty {
-            isLoggedIn = true
+          viewModel.didSubmitForm = true
+          if(viewModel.isLoginValid) {
+            viewModel.isLoggedIn = true
+            viewModel.didSubmitForm = false
           }
         }
       }

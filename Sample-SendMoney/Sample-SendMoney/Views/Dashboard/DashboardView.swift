@@ -8,50 +8,45 @@
 import SwiftUI
 
 struct DashboardView: View {
-  @State private var path = NavigationPath()
-  @State private var isBalanceExposed: Bool = true
-  @AppStorage("isLoggedIn") private var isLoggedIn: Bool?
   
-  private let userBalance: Double = 1000.0
+  @ObservedObject var viewModel = ViewModel()
   
   var body: some View {
-    NavigationStack(path: $path) {
+    NavigationStack(path: $viewModel.path) {
       
       VStack(alignment: .leading, spacing: 16.0) {
         
-        let balance = isBalanceExposed ? "\(userBalance)" : "*****"
+        let balance = viewModel.isBalanceExposed ? "\(viewModel.userBalance)" : "*****"
         
         Text("Balance: \(balance) PHP")
           .frame(maxWidth: .infinity, alignment: .leading)
         
-        let balanceButtonText = isBalanceExposed ? "Hide Balance" : "Show Balance"
+        let balanceButtonText = viewModel.isBalanceExposed ? "Hide Balance" : "Show Balance"
         
         Button(balanceButtonText) {
-          isBalanceExposed.toggle()
+          viewModel.isBalanceExposed.toggle()
         }
         
         Button("Send Money") {
-          path.append("sendMoney")
+          viewModel.path.append(NavigationPaths.sendMoney)
         }
         
         Button("Transaction History") {
-          path.append("transactionHistory")
+          viewModel.path.append(NavigationPaths.transactionHistory)
         }
         
         Button("Logout") {
-          if let loggedIn = isLoggedIn, loggedIn {
-            isLoggedIn = false
+          if let loggedIn = viewModel.isLoggedIn, loggedIn {
+            viewModel.isLoggedIn = false
           }
         }
       }
-      .navigationDestination(for: String.self) { value in
+      .navigationDestination(for: NavigationPaths.self) { value in
         switch value {
-        case "sendMoney":
+        case .sendMoney:
           SendMoneyView()
-        case "transactionHistory":
+        case .transactionHistory:
           TransactionHistoryView()
-        default:
-          DashboardView() // Replace with proper default destination
         }
       }
       .frame(maxWidth: .infinity)
@@ -61,5 +56,5 @@ struct DashboardView: View {
 }
 
 #Preview {
-    DashboardView()
+  DashboardView()
 }
