@@ -19,11 +19,13 @@ struct TransactionHistoryView: View {
     } else {
       List {
         ForEach(viewModel.transactions, id: \.id) { transaction in
-          let transactionListItemViewModel = TransactionListItemView.ViewModel(transaction: transaction)
+          
+          let transactionListItemViewModel = TransactionListItemView.ViewModel(
+            transaction: transaction)
+          
           TransactionListItemView(viewModel: transactionListItemViewModel)
         }
       }
-      .listStyle(.plain)
     }
   }
 }

@@ -11,22 +11,32 @@ struct TransactionListItemView: View {
   let viewModel: ViewModel
   
   var body: some View {
-    VStack(alignment: .leading) {
-      Text("Amount: \(viewModel.transaction.amount)")
-        .frame(maxWidth: .infinity,
-               alignment: .leading)
+    VStack(alignment: .leading, spacing: 8.0) {
+      HStack {
+        Text("Amount:").font(.headline).bold()
+        Text(viewModel.transaction.amount,
+             format: .currency(code: "PHP")
+                      .precision(.fractionLength(2)))
+      }
       
-      Text("Date: \(viewModel.transaction.date)")
-        .frame(maxWidth: .infinity,
-               alignment: .leading)
+      HStack {
+        Text("Recepient:").font(.headline).bold()
+        Text(viewModel.transaction.recepient)
+      }
       
-      Text("Recepient: \(viewModel.transaction.recepient)")
-        .frame(maxWidth: .infinity,
-               alignment: .leading)
+      HStack {
+        Text("Date:").font(.headline).bold()
+        Text(viewModel.transaction.date)
+      }
+        
     }
+    .frame(maxWidth: .infinity,
+             alignment: .leading)
   }
 }
 
 #Preview {
-  TransactionListItemView(viewModel: TransactionListItemView.ViewModel(transaction: Transaction.example))
+  TransactionListItemView(viewModel: TransactionListItemView.ViewModel(
+    transaction: Transaction.example)
+  )
 }
