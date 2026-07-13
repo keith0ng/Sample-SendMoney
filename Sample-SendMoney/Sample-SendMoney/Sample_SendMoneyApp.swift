@@ -11,7 +11,7 @@ import SwiftUI
 struct Sample_SendMoneyApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+          DashboardView()
         }
     }
 }

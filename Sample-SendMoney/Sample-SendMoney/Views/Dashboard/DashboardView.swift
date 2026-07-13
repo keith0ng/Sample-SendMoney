@@ -8,26 +8,41 @@
 import SwiftUI
 
 struct DashboardView: View {
+  @State var path = NavigationPath()
+  
   var body: some View {
-    VStack(alignment: .leading, spacing: 16.0) {
+    NavigationStack(path: $path) {
       
-      Text("Balance: 1000.00 PHP")
-        .frame(maxWidth: .infinity, alignment: .leading)
-      
-      Button("Send Money") {
+      VStack(alignment: .leading, spacing: 16.0) {
         
-      }
-      
-      Button("Transaction History") {
+        Text("Balance: 1000.00 PHP")
+          .frame(maxWidth: .infinity, alignment: .leading)
         
-      }
-      
-      Button("Logout") {
+        Button("Send Money") {
+          path.append("sendMoney")
+        }
         
+        Button("Transaction History") {
+          path.append("transactionHistory")
+        }
+        
+        Button("Logout") {
+          
+        }
       }
+      .navigationDestination(for: String.self) { value in
+        switch value {
+        case "sendMoney":
+          SendMoneyView()
+        case "transactionHistory":
+          TransactionHistoryView()
+        default:
+          DashboardView() // Replace with proper default destination
+        }
+      }
+      .frame(maxWidth: .infinity)
+      .padding(.horizontal, 16.0)
     }
-    .frame(maxWidth: .infinity)
-    .padding(.horizontal, 16.0)
   }
 }
 
