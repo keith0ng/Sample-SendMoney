@@ -19,19 +19,16 @@ struct BalanceView: View {
     } else {
       
       HStack{
-        Text("Balance: ").font(.title).bold()
+        Text("Balance: ")
         if viewModel.isBalanceExposed {
           Text(viewModel.balance,
                format: .currency(code: "PHP")
-                        .precision(.fractionLength(2))
+            .precision(.fractionLength(2))
           )
-            .font(.title)
-            .bold()
         } else {
           Text("₱*****")
-            .font(.title).bold()
         }
-      }
+      }.font(.title).bold()
     }
   }
 }

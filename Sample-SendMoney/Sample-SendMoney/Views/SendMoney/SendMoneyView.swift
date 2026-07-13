@@ -16,24 +16,28 @@ struct SendMoneyView: View {
       VStack {
         HStack {
           Text("Amount:")
-          TextField("0.00", value: $viewModel.amountToSend, format: .number)
-        }
+          TextField("0.00", value: $viewModel.amountToSend, format: .currency(code: "PHP").precision(.fractionLength(2)))
+        }.font(.title).bold()
         if viewModel.shouldShowSendMoneyFieldError {
-          Text("Send a proper amount").frame(maxWidth: .infinity, alignment: .leading)
+          Text("Send a proper amount").frame(maxWidth: .infinity, alignment: .leading).foregroundStyle(.red)
         }
       }
       if viewModel.isLoading {
-        ProgressView().progressViewStyle(.circular)
+          
       } else if viewModel.error != nil {
         
       } else {
         Button("Send") {
           viewModel.didAttemptToSendMoney = true
-          viewModel.isLoading = true
           if(viewModel.isSendMoneyValid) {
+            viewModel.userBalance -= viewModel.amountToSend
             viewModel.shouldShowTransactionResultSheet = true
           }
-        }
+        }.frame(maxWidth: .infinity)
+          .padding(8.0)
+          .background(Color.green.opacity(0.25))
+          .foregroundStyle(.black)
+          .clipShape(.buttonBorder)
       }
     }
     .padding(.horizontal, 16.0)

@@ -86,6 +86,18 @@ struct DashboardView: View {
               .clipShape(.buttonBorder)
           }
           
+          /*
+          // Debug top up button
+          Button("Top Up") {
+            viewModel.userBalance += 100.0
+          }.frame(maxWidth: .infinity)
+            .padding(8.0)
+            .background(Color.yellow.opacity(0.25))
+            .foregroundStyle(.black)
+            .clipShape(.buttonBorder)
+           */
+           
+          
           // Logout Button
           Button("Logout") {
             viewModel.logoutUser()
