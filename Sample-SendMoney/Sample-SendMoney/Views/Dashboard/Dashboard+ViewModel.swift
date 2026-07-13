@@ -10,6 +10,8 @@ import SwiftUI
 
 extension DashboardView {
   class ViewModel: ObservableObject {
+    @Published var isLoading: Bool = false
+    @Published var error: Error?
     @Published var userBalance: Double = 1000.0
     @Published var path = NavigationPath()
     @Published var isBalanceExposed: Bool = false

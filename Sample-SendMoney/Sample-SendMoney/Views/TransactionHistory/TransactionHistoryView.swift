@@ -12,13 +12,19 @@ struct TransactionHistoryView: View {
   var viewModel = ViewModel()
   
   var body: some View {
-    List {
-      ForEach(viewModel.transactions, id: \.id) { transaction in
-        let transactionListItemViewModel = TransactionListItemView.ViewModel(transaction: transaction)
-        TransactionListItemView(viewModel: transactionListItemViewModel)
+    if viewModel.isLoading {
+      ProgressView().progressViewStyle(.circular)
+    } else if viewModel.error != nil {
+      
+    } else {
+      List {
+        ForEach(viewModel.transactions, id: \.id) { transaction in
+          let transactionListItemViewModel = TransactionListItemView.ViewModel(transaction: transaction)
+          TransactionListItemView(viewModel: transactionListItemViewModel)
+        }
       }
+      .listStyle(.plain)
     }
-    .listStyle(.plain)
   }
 }
 

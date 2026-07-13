@@ -22,10 +22,17 @@ struct SendMoneyView: View {
           Text("Send a proper amount").frame(maxWidth: .infinity, alignment: .leading)
         }
       }
-      Button("Send") {
-        viewModel.didAttemptToSendMoney = true
-        if(viewModel.isSendMoneyValid) {
-          viewModel.shouldShowTransactionResultSheet = true
+      if viewModel.isLoading {
+        ProgressView().progressViewStyle(.circular)
+      } else if viewModel.error != nil {
+        
+      } else {
+        Button("Send") {
+          viewModel.didAttemptToSendMoney = true
+          viewModel.isLoading = true
+          if(viewModel.isSendMoneyValid) {
+            viewModel.shouldShowTransactionResultSheet = true
+          }
         }
       }
     }

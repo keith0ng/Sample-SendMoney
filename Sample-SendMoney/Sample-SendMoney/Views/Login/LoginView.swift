@@ -33,11 +33,18 @@ struct LoginView: View {
           }
         }
         
-        Button("Login") {
-          viewModel.didSubmitForm = true
-          if(viewModel.isLoginValid) {
-            viewModel.loginUser()
-            viewModel.didSubmitForm = false
+        if viewModel.isLoading {
+          ProgressView().progressViewStyle(.circular)
+        } else if viewModel.error != nil {
+          
+        } else {
+          Button("Login") {
+            viewModel.isLoading = true
+            viewModel.didSubmitForm = true
+            if(viewModel.isLoginValid) {
+              viewModel.loginUser()
+              viewModel.didSubmitForm = false
+            }
           }
         }
       }

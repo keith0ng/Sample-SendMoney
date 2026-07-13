@@ -9,6 +9,9 @@ import Foundation
 
 extension TransactionHistoryView {
   class ViewModel: ObservableObject {
+    @Published var isLoading = false
+    @Published var error: Error?
+    
     var transactions = [Transaction(id: UUID().uuidString,
                                     recepient: "Franklin",
                                     amount: 100.0,

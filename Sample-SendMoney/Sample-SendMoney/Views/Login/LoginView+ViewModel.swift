@@ -9,6 +9,8 @@ import SwiftUI
 
 extension LoginView {
   class ViewModel: ObservableObject {
+    @Published var isLoading = false
+    @Published var error: Error?
     @Published var username = ""
     @Published var password = ""
     @Published var didSubmitForm = false

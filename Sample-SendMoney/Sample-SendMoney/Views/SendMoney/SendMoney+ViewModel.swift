@@ -9,6 +9,8 @@ import Foundation
 
 extension SendMoneyView {
   class ViewModel: ObservableObject {
+    @Published var isLoading: Bool = false
+    @Published var error: Error?
     @Published var shouldShowTransactionResultSheet = false
     @Published var amountToSend = 0.0
     @Published var didAttemptToSendMoney = false

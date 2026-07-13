@@ -14,41 +14,98 @@ struct DashboardView: View {
   var body: some View {
     NavigationStack(path: $viewModel.path) {
       
-      VStack(alignment: .leading, spacing: 16.0) {
-        
-        let balance = viewModel.isBalanceExposed ? "\(viewModel.userBalance)" : "*****"
-        
-        Text("Balance: \(balance) PHP")
-          .frame(maxWidth: .infinity, alignment: .leading)
-        
-        let balanceButtonText = viewModel.isBalanceExposed ? "Hide Balance" : "Show Balance"
-        
-        Button(balanceButtonText) {
-          viewModel.isBalanceExposed.toggle()
+      if viewModel.isLoading {
+        ProgressView()
+          .progressViewStyle(.circular)
+          .scaleEffect(2.0, anchor: .center)
+      } else if viewModel.error != nil {
+        VStack(spacing: 4.0) {
+          Text("There's been an error loading this page.").font(.subheadline).bold()
+          Button {
+            // Refetch balance
+          } label: {
+            Image(systemName: "arrow.clockwise")
+              .foregroundStyle(.black)
+              .fontWeight(.medium)
+          }
         }
-        
-        Button("Send Money") {
-          viewModel.path.append(NavigationPaths.sendMoney)
+      } else {
+        VStack(alignment: .leading, spacing: 16.0) {
+          
+          let balanceViewModel = BalanceView.ViewModel(balance: viewModel.userBalance,
+                                                       isBalanceExposed: viewModel.isBalanceExposed)
+          HStack {
+            // Balance view
+            BalanceView(viewModel: balanceViewModel).frame(maxWidth: .infinity, alignment: .leading)
+            
+            // Mask balance button
+            Button {
+              viewModel.isBalanceExposed.toggle()
+            } label: {
+              let maskIcon = viewModel.isBalanceExposed ? "eye.slash" : "eye"
+              Image(systemName: maskIcon)
+                .foregroundStyle(.black)
+                .fontWeight(.bold)
+            }
+            
+            // Refetch balance button
+            Button {
+              // Refetch balance
+            } label: {
+              Image(systemName: "arrow.clockwise")
+                .foregroundStyle(.black)
+                .fontWeight(.medium)
+            }
+          }
+          
+          HStack {
+            // Send Button
+            VStack(spacing: 8.0) {
+              Image(systemName: "arrow.up.forward")
+                .foregroundStyle(.black)
+                .fontWeight(.medium)
+              Text("Send")
+            }.onTapGesture {
+              viewModel.path.append(NavigationPaths.sendMoney)
+            }.frame(maxWidth: .infinity)
+              .padding(16.0)
+              .background(Color.green.opacity(0.25))
+              .clipShape(.buttonBorder)
+            
+            // Transactions Button
+            VStack(spacing: 8.0) {
+              Image(systemName: "list.bullet")
+                .foregroundStyle(.black)
+                .fontWeight(.medium)
+              Text("Transactions")
+            }.onTapGesture {
+              viewModel.path.append(NavigationPaths.transactionHistory)
+            }.frame(maxWidth: .infinity)
+              .padding(16.0)
+              .background(Color.blue.opacity(0.25))
+              .clipShape(.buttonBorder)
+          }
+          
+          // Logout Button
+          Button("Logout") {
+            viewModel.logoutUser()
+          }.frame(maxWidth: .infinity)
+            .padding(8.0)
+            .background(Color.red.opacity(0.25))
+            .foregroundStyle(.black)
+            .clipShape(.buttonBorder)
         }
-        
-        Button("Transaction History") {
-          viewModel.path.append(NavigationPaths.transactionHistory)
+        .navigationDestination(for: NavigationPaths.self) { value in
+          switch value {
+          case .sendMoney:
+            SendMoneyView()
+          case .transactionHistory:
+            TransactionHistoryView()
+          }
         }
-        
-        Button("Logout") {
-          viewModel.logoutUser()
-        }
+        .frame(maxWidth: .infinity)
+        .padding(.horizontal, 16.0)
       }
-      .navigationDestination(for: NavigationPaths.self) { value in
-        switch value {
-        case .sendMoney:
-          SendMoneyView()
-        case .transactionHistory:
-          TransactionHistoryView()
-        }
-      }
-      .frame(maxWidth: .infinity)
-      .padding(.horizontal, 16.0)
     }
   }
 }
