@@ -9,6 +9,7 @@ import SwiftUI
 
 struct DashboardView: View {
   @State var path = NavigationPath()
+  @AppStorage("isLoggedIn") private var isLoggedIn: Bool?
   
   var body: some View {
     NavigationStack(path: $path) {
@@ -27,7 +28,9 @@ struct DashboardView: View {
         }
         
         Button("Logout") {
-          
+          if let loggedIn = isLoggedIn, loggedIn {
+            isLoggedIn = false
+          }
         }
       }
       .navigationDestination(for: String.self) { value in
