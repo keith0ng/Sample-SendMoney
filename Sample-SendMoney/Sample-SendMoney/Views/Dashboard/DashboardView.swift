@@ -8,16 +8,27 @@
 import SwiftUI
 
 struct DashboardView: View {
-  @State var path = NavigationPath()
+  @State private var path = NavigationPath()
+  @State private var isBalanceExposed: Bool = true
   @AppStorage("isLoggedIn") private var isLoggedIn: Bool?
+  
+  private let userBalance: Double = 1000.0
   
   var body: some View {
     NavigationStack(path: $path) {
       
       VStack(alignment: .leading, spacing: 16.0) {
         
-        Text("Balance: 1000.00 PHP")
+        let balance = isBalanceExposed ? "\(userBalance)" : "*****"
+        
+        Text("Balance: \(balance) PHP")
           .frame(maxWidth: .infinity, alignment: .leading)
+        
+        let balanceButtonText = isBalanceExposed ? "Hide Balance" : "Show Balance"
+        
+        Button(balanceButtonText) {
+          isBalanceExposed.toggle()
+        }
         
         Button("Send Money") {
           path.append("sendMoney")
