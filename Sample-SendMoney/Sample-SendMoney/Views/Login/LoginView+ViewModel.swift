@@ -9,10 +9,10 @@ import SwiftUI
 
 extension LoginView {
   class ViewModel: ObservableObject {
-    @AppStorage("isLoggedIn") var isLoggedIn: Bool?
     @Published var username = ""
     @Published var password = ""
     @Published var didSubmitForm = false
+    @AppStorage("loggedInUser") var loggedInUser: String?
     
     var shouldShowUsernameError: Bool {
       return didSubmitForm && username.isEmpty
@@ -24,6 +24,16 @@ extension LoginView {
     
     var isLoginValid: Bool {
       return !username.isEmpty && !password.isEmpty
+    }
+    
+    func loginUser() {
+      guard isLoginValid else {
+        return
+      }
+      KeychainManager.shared.username = username
+      KeychainManager.shared.password = password
+      loggedInUser = username
+      
     }
   }
 }

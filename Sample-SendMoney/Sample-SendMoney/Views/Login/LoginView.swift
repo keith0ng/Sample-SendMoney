@@ -36,7 +36,7 @@ struct LoginView: View {
         Button("Login") {
           viewModel.didSubmitForm = true
           if(viewModel.isLoginValid) {
-            viewModel.isLoggedIn = true
+            viewModel.loginUser()
             viewModel.didSubmitForm = false
           }
         }

@@ -36,9 +36,7 @@ struct DashboardView: View {
         }
         
         Button("Logout") {
-          if let loggedIn = viewModel.isLoggedIn, loggedIn {
-            viewModel.isLoggedIn = false
-          }
+          viewModel.logoutUser()
         }
       }
       .navigationDestination(for: NavigationPaths.self) { value in
