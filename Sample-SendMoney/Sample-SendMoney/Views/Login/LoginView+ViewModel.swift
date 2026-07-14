@@ -13,29 +13,46 @@ extension LoginView {
     @Published var error: Error?
     @Published var username = ""
     @Published var password = ""
-    @Published var didSubmitForm = false
-    @AppStorage("loggedInUser") var loggedInUser: String?
+    @Published var didAttemptToLogin = false
+    @AppStorage("loggedInUser") var loggedInUser: String = "user"
+    
+    private let networkManager = NetworkManager(baseURL: "https://jsonplaceholder.typicode.com")
     
     var shouldShowUsernameError: Bool {
-      return didSubmitForm && username.isEmpty
+      return didAttemptToLogin && username.isEmpty
     }
     
     var shouldShowPasswordError: Bool {
-      return didSubmitForm && password.isEmpty
+      return didAttemptToLogin && password.isEmpty
     }
     
     var isLoginValid: Bool {
       return !username.isEmpty && !password.isEmpty
     }
     
-    func loginUser() {
+    @MainActor func loginUser() async throws {
       guard isLoginValid else {
         return
       }
-      KeychainManager.shared.username = username
-      KeychainManager.shared.password = password
-      loggedInUser = username
       
+      defer {
+        isLoading = false
+      }
+      
+      isLoading = true
+      let mockTransaction = MockTransaction(id: 999,
+                                            title: "Sample-SendMoney",
+                                            body: "This is a sample transaction",
+                                            userId: loggedInUser)
+      do {
+        let _: MockTransaction = try await networkManager.post(endpoint: "/posts",
+                                                               body: mockTransaction)
+        KeychainManager.shared.username = username
+        KeychainManager.shared.password = password
+        loggedInUser = username
+      } catch {
+        self.error = error
+      }
     }
   }
 }

@@ -39,23 +39,33 @@ struct LoginView: View {
         }
       }
       
-      if viewModel.isLoading {
-        //          ProgressView().progressViewStyle(.circular)
-      } else if viewModel.error != nil {
-        
-      } else {
-        Button("Login") {
-          //            viewModel.isLoading = true
-          viewModel.didSubmitForm = true
-          if(viewModel.isLoginValid) {
-            viewModel.loginUser()
-            viewModel.didSubmitForm = false
+      VStack {
+        ZStack {
+          if viewModel.isLoading {
+            ProgressView()
+              .progressViewStyle(.circular)
           }
-        }.frame(maxWidth: .infinity)
-          .padding(8.0)
-          .background(Color.green.opacity(0.25))
-          .foregroundStyle(.black)
-          .clipShape(.buttonBorder)
+          Button("Login") {
+            viewModel.isLoading = true
+            viewModel.didAttemptToLogin = true
+            if(viewModel.isLoginValid) {
+              viewModel.didAttemptToLogin = false
+              Task {
+                try await viewModel.loginUser()
+              }
+            }
+          }.frame(maxWidth: .infinity)
+            .padding(8.0)
+            .background(viewModel.isLoading ? Color.gray.opacity(0.25) : Color.green.opacity(0.25))
+            .foregroundStyle(.black)
+            .clipShape(.buttonBorder)
+            .disabled(viewModel.isLoading)
+        }
+        if viewModel.error != nil {
+          Text("There's an error logging in.").frame(maxWidth: .infinity,
+                                                     alignment: .leading)
+          .foregroundStyle(.red)
+        }
       }
     }
     .padding(.horizontal, 16.0)
