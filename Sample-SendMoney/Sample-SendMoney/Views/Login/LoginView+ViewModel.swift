@@ -14,9 +14,9 @@ extension LoginView {
     @Published var username = ""
     @Published var password = ""
     @Published var didAttemptToLogin = false
-    @AppStorage("loggedInUser") var loggedInUser: String = "user"
+    @AppStorage(Constants.loggedinUserKey) var loggedInUser: String = Constants.defaultUsername
     
-    private let networkManager = NetworkManager(baseURL: "https://jsonplaceholder.typicode.com")
+    private let networkManager = NetworkManager(baseURL: Constants.apiUrl)
     
     var shouldShowUsernameError: Bool {
       return didAttemptToLogin && username.isEmpty
@@ -40,6 +40,10 @@ extension LoginView {
       }
       
       isLoading = true
+      
+      // This is only for the purpose of simulating a POST request
+      // when a user is logging in the app.
+      // In the future, actual login endpoint should be implemented here.
       let mockTransaction = MockTransaction(id: 999,
                                             title: "Sample-SendMoney",
                                             body: "This is a sample transaction",

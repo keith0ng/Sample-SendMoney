@@ -15,10 +15,10 @@ extension DashboardView {
     
     @Published var path = NavigationPath()
     @Published var isBalanceExposed: Bool = false
-    @AppStorage("userBalance") var userBalance: Double = 1000.0
-    @AppStorage("loggedInUser") var loggedInUser: String?
+    @AppStorage(Constants.userBalanceKey) var userBalance: Double = Constants.defaultUserBalance
+    @AppStorage(Constants.loggedinUserKey) var loggedInUser: String?
     
-    private let networkManager = NetworkManager(baseURL: "https://jsonplaceholder.typicode.com")
+    private let networkManager = NetworkManager(baseURL: Constants.apiUrl)
     
     func logoutUser() {
       KeychainManager.shared.password = nil
@@ -33,6 +33,8 @@ extension DashboardView {
       
       isLoading = true
       
+      // This is only to simulate GET request in the Dashboard.
+      // Replace with actual fetch user balance API.
       do {
         let _: [Transaction] = try await networkManager.get(endpoint: "/users")
         // Append a small amount to simulate update of value.

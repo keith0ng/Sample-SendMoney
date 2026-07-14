@@ -25,7 +25,7 @@ struct BalanceView: View {
         Text("Balance: ")
         if viewModel.isBalanceExposed {
           Text(viewModel.balance,
-               format: .currency(code: "PHP")
+               format: .currency(code: Constants.defaultCurrency)
             .precision(.fractionLength(2))
           )
         } else {
@@ -37,5 +37,6 @@ struct BalanceView: View {
 }
 
 #Preview {
-  BalanceView(viewModel: BalanceView.ViewModel(balance: 1000.0, isBalanceExposed: false))
+  BalanceView(viewModel: BalanceView.ViewModel(balance: Constants.defaultUserBalance,
+                                               isBalanceExposed: false))
 }

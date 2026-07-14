@@ -23,7 +23,7 @@ struct TransactionListItemView: View {
       HStack {
         Text("Amount:").font(.headline).bold()
         Text(viewModel.transaction.amount,
-             format: .currency(code: "PHP")
+             format: .currency(code: Constants.defaultCurrency)
                       .precision(.fractionLength(2)))
       }
       

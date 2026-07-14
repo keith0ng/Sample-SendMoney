@@ -33,7 +33,7 @@ struct SendMoneyResultSheet: View {
           Text("Success!").font(.title).bold()
           HStack {
             Text(viewModel.sentAmount,
-                 format: .currency(code: "PHP")
+                 format: .currency(code: Constants.defaultCurrency)
               .precision(.fractionLength(2))).font(.title).bold()
             Text("was sent!").font(.title).bold()
           }

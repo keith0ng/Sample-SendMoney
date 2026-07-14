@@ -13,7 +13,7 @@ extension TransactionHistoryView {
     @Published var error: Error?
     @Published var transactions: [Transaction] = []
     
-    private let networkManager = NetworkManager(baseURL: "https://jsonplaceholder.typicode.com")
+    private let networkManager = NetworkManager(baseURL: Constants.apiUrl)
     
     @MainActor func fetchTransactions() async {
       defer {

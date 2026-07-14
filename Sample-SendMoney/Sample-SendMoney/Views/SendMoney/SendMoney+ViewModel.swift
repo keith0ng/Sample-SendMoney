@@ -16,10 +16,10 @@ extension SendMoneyView {
     @Published var amountToSend: Double = 0
     @Published var didAttemptToSendMoney = false
     
-    @AppStorage("userBalance") var userBalance: Double = 1000.0
-    @AppStorage("loggedInUser") var loggedInUser: String = "user"
+    @AppStorage(Constants.userBalanceKey) var userBalance: Double = Constants.defaultUserBalance
+    @AppStorage(Constants.loggedinUserKey) var loggedInUser: String = Constants.defaultUsername
     
-    private let networkManager = NetworkManager(baseURL: "https://jsonplaceholder.typicode.com")
+    private let networkManager = NetworkManager(baseURL: Constants.apiUrl)
     
     private var transaction: Transaction?
     
@@ -38,6 +38,10 @@ extension SendMoneyView {
       }
       
       isLoading = true
+      
+      // This is only for the purpose of simulating a POST request
+      // when a user is attempting to send a money via the app.
+      // In the future, actual send money endpoint should be implemented here.
       let mockTransaction = MockTransaction(id: 999,
                                             title: "Sample-SendMoney",
                                             body: "This is a sample transaction",

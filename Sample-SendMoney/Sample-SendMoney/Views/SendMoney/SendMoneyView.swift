@@ -18,7 +18,7 @@ struct SendMoneyView: View {
           Text("Amount:")
           TextField("0.00",
                     value: $viewModel.amountToSend,
-                    format: .currency(code: "PHP")
+                    format: .currency(code: Constants.defaultCurrency)
             .precision(.fractionLength(2)))
         }.font(.title)
           .bold()
