@@ -15,18 +15,22 @@ struct SendMoneyView: View {
     VStack(alignment: .leading, spacing: 16.0) {
       // MARK: -- Send Money input field
       VStack {
-        HStack {
+        VStack {
           Text("\(String(localized: "amount")):")
-          TextField("0.00",
+            .font(.headline)
+            .bold()
+            .frame(maxWidth: .infinity, alignment: .leading)
+          TextField("",
                     value: $viewModel.amountToSend,
                     format: .currency(code: Constants.defaultCurrency)
             .precision(.fractionLength(2)))
-            .keyboardType(.numberPad)
-        }.font(.title)
+          .keyboardType(.decimalPad)
+          .font(.title)
           .bold()
+        }
         if viewModel.shouldShowSendMoneyFieldError {
           Text(String(localized: "enterValidAmountError")).frame(maxWidth: .infinity,
-                                             alignment: .leading)
+                                                                 alignment: .leading)
           .foregroundStyle(.red)
         }
       }
@@ -34,7 +38,7 @@ struct SendMoneyView: View {
       ZStack {
         HorizontalButton(title: String(localized: "send"),
                          background: viewModel.isLoading ? Color.gray.opacity(0.75) :
-                                                           Color.green,
+                          Color.green,
                          disabled: viewModel.isLoading,
                          action: {
           
@@ -46,7 +50,7 @@ struct SendMoneyView: View {
               try await viewModel.sendMoney(amount: viewModel.amountToSend)
             }
           }
-
+          
         })
         
         if viewModel.isLoading {

@@ -26,10 +26,10 @@ struct LoginView: View {
                             errorText: viewModel.shouldShowUsernameError ?
                             String(localized: "usernameEmptyError") : nil)
       
-      RoundedRectangleField(text: $viewModel.username,
+      RoundedRectangleField(text: $viewModel.password,
                             placeholder: String(localized: "password"),
                             isSecureField: true,
-                            errorText: viewModel.shouldShowUsernameError ?
+                            errorText: viewModel.shouldShowPasswordError ?
                             String(localized: "passwordEmptyError") : nil)
       
       // MARK: -- Login Button

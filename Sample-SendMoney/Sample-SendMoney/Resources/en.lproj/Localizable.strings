@@ -23,7 +23,7 @@
 "balanceMask" = "₱*****";
 
 // Send Money
-"amount" = "Amount";
+"amount" = "Please enter amount to send";
 "enterValidAmountError" = "Please enter a valid amount.";
 
 // Send Money Result Sheet
