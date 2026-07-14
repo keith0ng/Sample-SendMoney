@@ -10,13 +10,11 @@ import SwiftUI
 struct LandingView: View {
   
   @AppStorage("loggedInUser") var loggedInUser: String?
-  @State private var keychainManager = KeychainManager.shared
   
   var body: some View {
+    
     if let loggedInUser = loggedInUser,
-       !loggedInUser.isEmpty,
-       let password = keychainManager.password,
-       !password.isEmpty {
+       !loggedInUser.isEmpty {
       DashboardView()
     } else {
       LoginView()
