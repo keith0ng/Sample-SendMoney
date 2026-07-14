@@ -15,13 +15,25 @@
 "loginError" = "There's an error logging in.";
 
 // Dashboard
+"dashboard" = "Dashboard";
 "transactions" = "Transactions";
 "logout" = "Logout";
 "balance" = "Balance";
 "balanceDisplayError" = "There's a problem showing your balance.";
 "balanceMask" = "₱*****";
 
+// Send Money
+"amount" = "Amount";
+"enterValidAmountError" = "Please enter a valid amount.";
+
+
+// Transactions
+
+"recepient" = "Recepient";
+"date" = "Date";
+
 // General
+"emptyQuery" = "No results found.";
 "pageLoadError" = "There's been an error loading this page.";
 "send" = "Send";
 

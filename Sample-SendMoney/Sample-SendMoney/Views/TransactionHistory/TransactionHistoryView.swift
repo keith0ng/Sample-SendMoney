@@ -15,7 +15,7 @@ struct TransactionHistoryView: View {
     ZStack {
       if viewModel.transactions.isEmpty && !viewModel.isLoading {
         VStack(spacing: 4.0) {
-          Text("No results found.").font(.subheadline).bold()
+          Text(String(localized: "emptyQuery")).font(.subheadline).bold()
           Button {
             Task {
               await viewModel.fetchTransactions()
@@ -33,7 +33,7 @@ struct TransactionHistoryView: View {
                        anchor: .center)
       } else if viewModel.error != nil {
         VStack(spacing: 4.0) {
-          Text("There's been an error loading this page.").font(.subheadline).bold()
+          Text(String(localized: "pageLoadError")).font(.subheadline).bold()
           Button {
             Task {
               await viewModel.fetchTransactions()

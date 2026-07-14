@@ -15,20 +15,20 @@ struct TransactionListItemView: View {
       
       
       VStack(alignment: .leading) {
-        Text("Recepient:").font(.headline).bold()
+        Text("\(String(localized: "recepient")):").font(.headline).bold()
         Text(viewModel.transaction.name)
         Text("@\(viewModel.transaction.username)")
       }
       
       HStack {
-        Text("Amount:").font(.headline).bold()
+        Text("\(String(localized: "amount")):").font(.headline).bold()
         Text(viewModel.transaction.amount,
              format: .currency(code: Constants.defaultCurrency)
                       .precision(.fractionLength(2)))
       }
       
       HStack {
-        Text("Date:").font(.headline).bold()
+        Text("\(String(localized: "date")):").font(.headline).bold()
         Text(viewModel.formattedDate ?? viewModel.transaction.date)
       }
         

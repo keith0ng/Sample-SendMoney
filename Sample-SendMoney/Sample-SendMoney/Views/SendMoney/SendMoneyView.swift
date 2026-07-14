@@ -15,21 +15,22 @@ struct SendMoneyView: View {
     VStack(alignment: .leading, spacing: 16.0) {
       VStack {
         HStack {
-          Text("Amount:")
+          Text("\(String(localized: "amount")):")
           TextField("0.00",
                     value: $viewModel.amountToSend,
                     format: .currency(code: Constants.defaultCurrency)
             .precision(.fractionLength(2)))
+            .keyboardType(.numberPad)
         }.font(.title)
           .bold()
         if viewModel.shouldShowSendMoneyFieldError {
-          Text("Please enter a valid amount.").frame(maxWidth: .infinity,
+          Text(String(localized: "enterValidAmountError")).frame(maxWidth: .infinity,
                                              alignment: .leading)
           .foregroundStyle(.red)
         }
       }
       ZStack {
-        HorizontalButton(title: "Send",
+        HorizontalButton(title: String(localized: "send"),
                          background: viewModel.isLoading ? Color.gray.opacity(0.75) :
                                                            Color.green,
                          disabled: viewModel.isLoading,
