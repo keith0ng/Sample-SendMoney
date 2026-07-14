@@ -14,22 +14,22 @@ struct BalanceView: View {
   var body: some View {
     if viewModel.isLoading {
       HStack {
-        Text("Balance:").font(.title).bold()
+        Text("\(String(localized: "balance")): ").font(.title).bold()
         ProgressView().progressViewStyle(.circular)
       }
     } else if viewModel.error != nil {
-      Text("There's a problem showing your balance.").font(.subheadline).bold()
+      Text(String(localized: "balanceDisplayError")).font(.subheadline).bold()
     } else {
       
       HStack{
-        Text("Balance: ")
+        Text("\(String(localized: "balance")): ")
         if viewModel.isBalanceExposed {
           Text(viewModel.balance,
                format: .currency(code: Constants.defaultCurrency)
             .precision(.fractionLength(2))
           )
         } else {
-          Text("₱*****")
+          Text(String(localized: "balanceMask"))
         }
       }.font(.title).bold()
     }

@@ -50,7 +50,8 @@ extension Transaction: Codable {
                                                   forKey: CodingKeys.username) ?? ""
     
     self.amount = try container.decodeIfPresent(Double.self,
-                                                forKey: CodingKeys.amount) ?? 0.0
+                                                forKey: CodingKeys.amount) ?? Double.random(in: 5.0...5000.0) // Added an RNG since the API doesn't return the amount.
+    
     
     self.email = try container.decodeIfPresent(String.self,
                                                forKey: CodingKeys.email) ?? ""
@@ -59,6 +60,6 @@ extension Transaction: Codable {
                                                forKey: CodingKeys.phone) ?? ""
     
     self.date = try container.decodeIfPresent(String.self,
-                                              forKey: CodingKeys.date) ?? "\(Date.now.ISO8601Format())"
+                                              forKey: CodingKeys.date) ?? "\(Date.now.ISO8601Format())" // Ideally the date should be returned by the API.
   }
 }

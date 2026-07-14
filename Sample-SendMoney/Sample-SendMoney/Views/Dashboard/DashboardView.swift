@@ -15,7 +15,7 @@ struct DashboardView: View {
     NavigationStack(path: $viewModel.path) {
       if viewModel.error != nil {
         VStack(spacing: 4.0) {
-          Text("There's been an error loading this page.").font(.subheadline).bold()
+          Text(String(localized: "pageLoadError")).font(.subheadline).bold()
           Button {
             Task {
               await viewModel.fetchBalance()
@@ -62,14 +62,14 @@ struct DashboardView: View {
           
           HStack {
             // Send Button
-            TileButton(title: "Send",
+            TileButton(title: String(localized: "send"),
                        systemImageName: "arrow.up.forward",
                        background: Color.green.opacity(0.75),
                        action: {
               viewModel.path.append(NavigationPaths.sendMoney)
             })
             
-            TileButton(title: "Transactions",
+            TileButton(title: String(localized: "transactions"),
                        systemImageName: "list.bullet",
                        background: Color.blue.opacity(0.75),
                        action: {
@@ -77,7 +77,7 @@ struct DashboardView: View {
             })
           }
           
-          HorizontalButton(title: "Logout",
+          HorizontalButton(title: String(localized: "logout"),
                            background: Color.red.opacity(0.75),
                            action: {
             viewModel.logoutUser()

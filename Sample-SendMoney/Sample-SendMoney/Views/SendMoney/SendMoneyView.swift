@@ -23,7 +23,7 @@ struct SendMoneyView: View {
         }.font(.title)
           .bold()
         if viewModel.shouldShowSendMoneyFieldError {
-          Text("Send a proper amount").frame(maxWidth: .infinity,
+          Text("Please enter a valid amount.").frame(maxWidth: .infinity,
                                              alignment: .leading)
           .foregroundStyle(.red)
         }

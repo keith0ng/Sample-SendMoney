@@ -21,18 +21,20 @@ struct LoginView: View {
         .bold()
       
       VStack {
-        TextField("Username", text: $viewModel.username).textFieldStyle(RoundedBorderTextFieldStyle())
+        TextField(String(localized: "username"),
+                  text: $viewModel.username).textFieldStyle(RoundedBorderTextFieldStyle())
         if viewModel.shouldShowUsernameError {
-          Text("Username cannot be empty").frame(maxWidth: .infinity,
+          Text(String(localized: "usernameEmptyError")).frame(maxWidth: .infinity,
                                                  alignment: .leading)
           .foregroundStyle(.red)
         }
       }
       
       VStack {
-        SecureField("Password", text: $viewModel.password).textFieldStyle(RoundedBorderTextFieldStyle())
+        SecureField(String(localized: "password"),
+                    text: $viewModel.password).textFieldStyle(RoundedBorderTextFieldStyle())
         if viewModel.shouldShowPasswordError {
-          Text("Password cannot be empty").frame(maxWidth: .infinity,
+          Text(String(localized: "passwordEmptyError")).frame(maxWidth: .infinity,
                                                  alignment: .leading)
           .foregroundStyle(.red)
         }
@@ -40,16 +42,15 @@ struct LoginView: View {
       
       VStack {
         ZStack {
-          HorizontalButton(title: "Login",
+          HorizontalButton(title: String(localized: "login"),
                            background: viewModel.isLoading ? Color.gray :
                                                              Color.green,
                            disabled: viewModel.isLoading,
                            action: {
             
-            viewModel.isLoading = true
             viewModel.didAttemptToLogin = true
             if(viewModel.isLoginValid) {
-              viewModel.didAttemptToLogin = false
+              viewModel.isLoading = true
               Task {
                 try await viewModel.loginUser()
               }
@@ -65,7 +66,7 @@ struct LoginView: View {
         
         
         if viewModel.error != nil {
-          Text("There's an error logging in.").frame(maxWidth: .infinity,
+          Text(String(localized: "loginError")).frame(maxWidth: .infinity,
                                                      alignment: .leading)
           .foregroundStyle(.red)
         }

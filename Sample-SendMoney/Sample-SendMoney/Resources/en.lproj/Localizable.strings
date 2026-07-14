@@ -1,0 +1,27 @@
+/* 
+  Localizable.strings
+  Sample-SendMoney
+
+  Created by Keith Samson on 7/14/26.
+
+*/
+
+// Login
+"login" = "Login";
+"username" = "Username";
+"password" = "Password";
+"usernameEmptyError" = "Username cannot be empty.";
+"passwordEmptyError" = "Password cannot be empty.";
+"loginError" = "There's an error logging in.";
+
+// Dashboard
+"transactions" = "Transactions";
+"logout" = "Logout";
+"balance" = "Balance";
+"balanceDisplayError" = "There's a problem showing your balance.";
+"balanceMask" = "₱*****";
+
+// General
+"pageLoadError" = "There's been an error loading this page.";
+"send" = "Send";
+

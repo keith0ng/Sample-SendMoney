@@ -29,7 +29,7 @@ struct TransactionListItemView: View {
       
       HStack {
         Text("Date:").font(.headline).bold()
-        Text(viewModel.transaction.date)
+        Text(viewModel.formattedDate ?? viewModel.transaction.date)
       }
         
     }
