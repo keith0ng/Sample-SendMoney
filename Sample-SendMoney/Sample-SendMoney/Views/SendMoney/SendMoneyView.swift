@@ -10,6 +10,7 @@ import SwiftUI
 struct SendMoneyView: View {
   
   @ObservedObject var viewModel = ViewModel()
+  @AppStorage(Constants.userBalanceKey) var userBalance: Double = Constants.defaultUserBalance
   
   var body: some View {
     VStack(alignment: .leading, spacing: 16.0) {
@@ -50,7 +51,6 @@ struct SendMoneyView: View {
               try await viewModel.sendMoney(amount: viewModel.amountToSend)
             }
           }
-          
         })
         
         if viewModel.isLoading {

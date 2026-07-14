@@ -10,6 +10,7 @@ import SwiftUI
 struct DashboardView: View {
   
   @ObservedObject var viewModel = ViewModel()
+  @AppStorage(Constants.userBalanceKey) var userBalance: Double = Constants.defaultUserBalance
   
   var body: some View {
     NavigationStack(path: $viewModel.path) {
@@ -29,7 +30,7 @@ struct DashboardView: View {
         }
       } else {
         VStack(alignment: .leading, spacing: 16.0) {
-          let balanceViewModel = BalanceView.ViewModel(balance: viewModel.userBalance,
+          let balanceViewModel = BalanceView.ViewModel(balance: userBalance,
                                                        isBalanceExposed: viewModel.isBalanceExposed,
                                                        isLoading: viewModel.isLoading,
                                                        error: viewModel.error)
@@ -51,6 +52,8 @@ struct DashboardView: View {
               Task {
                 await viewModel.fetchBalance()
               }
+              // Debug feature: Reload button tops up balance by a small amount.
+              userBalance += 5.0
             } label: {
               Image(systemName: "arrow.clockwise")
                 .foregroundStyle(.black)

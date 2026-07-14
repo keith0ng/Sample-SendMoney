@@ -15,7 +15,7 @@ extension DashboardView {
     
     @Published var path = NavigationPath()
     @Published var isBalanceExposed: Bool = false
-    @AppStorage(Constants.userBalanceKey) var userBalance: Double = Constants.defaultUserBalance
+    @Published var userBalance: Double = 0.0
     @AppStorage(Constants.loggedinUserKey) var loggedInUser: String?
     
     private let networkManager = NetworkManager(baseURL: Constants.apiUrl)
@@ -37,8 +37,6 @@ extension DashboardView {
       // Replace with actual fetch user balance API.
       do {
         let _: [Transaction] = try await networkManager.get(endpoint: "/users")
-        // Append a small amount to simulate update of value.
-        userBalance += 5.0
       } catch (let error) {
         self.error = error
       }
