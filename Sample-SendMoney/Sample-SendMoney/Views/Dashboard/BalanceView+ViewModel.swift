@@ -14,7 +14,10 @@ extension BalanceView {
     @Published var isLoading: Bool = false
     @Published var error: Error?
     
-    init(balance: Double, isBalanceExposed: Bool) {
+    init(balance: Double,
+         isBalanceExposed: Bool,
+         isLoading: Bool = false,
+         error: Error? = nil) {
       self.isBalanceExposed = isBalanceExposed
       self.balance = balance
     }

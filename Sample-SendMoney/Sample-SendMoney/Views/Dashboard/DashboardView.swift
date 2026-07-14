@@ -13,12 +13,7 @@ struct DashboardView: View {
   
   var body: some View {
     NavigationStack(path: $viewModel.path) {
-      
-      if viewModel.isLoading {
-        ProgressView()
-          .progressViewStyle(.circular)
-          .scaleEffect(2.0, anchor: .center)
-      } else if viewModel.error != nil {
+      if viewModel.error != nil {
         VStack(spacing: 4.0) {
           Text("There's been an error loading this page.").font(.subheadline).bold()
           Button {
@@ -33,11 +28,12 @@ struct DashboardView: View {
         VStack(alignment: .leading, spacing: 16.0) {
           
           let balanceViewModel = BalanceView.ViewModel(balance: viewModel.userBalance,
-                                                       isBalanceExposed: viewModel.isBalanceExposed)
+                                                       isBalanceExposed: viewModel.isBalanceExposed,
+                                                       isLoading: viewModel.isLoading,
+                                                       error: viewModel.error)
           HStack {
             // Balance view
             BalanceView(viewModel: balanceViewModel).frame(maxWidth: .infinity, alignment: .leading)
-            
             // Mask balance button
             Button {
               viewModel.isBalanceExposed.toggle()
@@ -46,15 +42,19 @@ struct DashboardView: View {
               Image(systemName: maskIcon)
                 .foregroundStyle(.black)
                 .fontWeight(.bold)
+                .disabled(viewModel.isLoading || viewModel.error != nil)
             }
             
             // Refetch balance button
             Button {
-              // Refetch balance
+              Task {
+                await viewModel.fetchBalance()
+              }
             } label: {
               Image(systemName: "arrow.clockwise")
                 .foregroundStyle(.black)
-                .fontWeight(.medium)
+                .fontWeight(.bold)
+                .disabled(viewModel.isLoading)
             }
           }
           
@@ -86,18 +86,6 @@ struct DashboardView: View {
               .clipShape(.buttonBorder)
           }
           
-          /*
-          // Debug top up button
-          Button("Top Up") {
-            viewModel.userBalance += 100.0
-          }.frame(maxWidth: .infinity)
-            .padding(8.0)
-            .background(Color.yellow.opacity(0.25))
-            .foregroundStyle(.black)
-            .clipShape(.buttonBorder)
-           */
-           
-          
           // Logout Button
           Button("Logout") {
             viewModel.logoutUser()
@@ -118,6 +106,8 @@ struct DashboardView: View {
         .frame(maxWidth: .infinity)
         .padding(.horizontal, 16.0)
       }
+    }.task {
+      await viewModel.fetchBalance()
     }
   }
 }

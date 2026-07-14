@@ -13,9 +13,12 @@ struct BalanceView: View {
   
   var body: some View {
     if viewModel.isLoading {
-      Text("Balance: Loading... PHP")
+      HStack {
+        Text("Balance:").font(.title).bold()
+        ProgressView().progressViewStyle(.circular)
+      }
     } else if viewModel.error != nil {
-      Text("There's a problem showing your balance.")
+      Text("There's a problem showing your balance.").font(.subheadline).bold()
     } else {
       
       HStack{

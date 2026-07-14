@@ -36,6 +36,7 @@ struct SendMoneyView: View {
         Button("Send") {
           viewModel.didAttemptToSendMoney = true
           if(viewModel.isSendMoneyValid) {
+            viewModel.didAttemptToSendMoney = false
             Task {
               try await viewModel.sendMoney(amount: viewModel.amountToSend)
             }
