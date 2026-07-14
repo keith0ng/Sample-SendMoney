@@ -43,9 +43,15 @@ struct LoginView: View {
         ZStack {
           if viewModel.isLoading {
             ProgressView()
-              .progressViewStyle(.circular)
+              .progressViewStyle(.circular).tint(.white)
           }
-          Button("Login") {
+
+          HorizontalButton(title: "Login",
+                           background: viewModel.isLoading ? Color.gray :
+                                                             Color.green,
+                           disabled: viewModel.isLoading,
+                           action: {
+            
             viewModel.isLoading = true
             viewModel.didAttemptToLogin = true
             if(viewModel.isLoginValid) {
@@ -54,13 +60,10 @@ struct LoginView: View {
                 try await viewModel.loginUser()
               }
             }
-          }.frame(maxWidth: .infinity)
-            .padding(8.0)
-            .background(viewModel.isLoading ? Color.gray.opacity(0.25) : Color.green.opacity(0.25))
-            .foregroundStyle(.black)
-            .clipShape(.buttonBorder)
-            .disabled(viewModel.isLoading)
+            
+          })
         }
+        
         if viewModel.error != nil {
           Text("There's an error logging in.").frame(maxWidth: .infinity,
                                                      alignment: .leading)

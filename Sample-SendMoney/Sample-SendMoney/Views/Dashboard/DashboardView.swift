@@ -17,7 +17,9 @@ struct DashboardView: View {
         VStack(spacing: 4.0) {
           Text("There's been an error loading this page.").font(.subheadline).bold()
           Button {
-            // Refetch balance
+            Task {
+              await viewModel.fetchBalance()
+            }
           } label: {
             Image(systemName: "arrow.clockwise")
               .foregroundStyle(.black)
@@ -60,40 +62,27 @@ struct DashboardView: View {
           
           HStack {
             // Send Button
-            VStack(spacing: 8.0) {
-              Image(systemName: "arrow.up.forward")
-                .foregroundStyle(.black)
-                .fontWeight(.medium)
-              Text("Send")
-            }.onTapGesture {
+            TileButton(title: "Send",
+                       systemImageName: "arrow.up.forward",
+                       background: Color.green.opacity(0.75),
+                       action: {
               viewModel.path.append(NavigationPaths.sendMoney)
-            }.frame(maxWidth: .infinity)
-              .padding(16.0)
-              .background(Color.green.opacity(0.25))
-              .clipShape(.buttonBorder)
+            })
             
-            // Transactions Button
-            VStack(spacing: 8.0) {
-              Image(systemName: "list.bullet")
-                .foregroundStyle(.black)
-                .fontWeight(.medium)
-              Text("Transactions")
-            }.onTapGesture {
+            TileButton(title: "Transactions",
+                       systemImageName: "list.bullet",
+                       background: Color.blue.opacity(0.75),
+                       action: {
               viewModel.path.append(NavigationPaths.transactionHistory)
-            }.frame(maxWidth: .infinity)
-              .padding(16.0)
-              .background(Color.blue.opacity(0.25))
-              .clipShape(.buttonBorder)
+            })
           }
           
-          // Logout Button
-          Button("Logout") {
+          HorizontalButton(title: "Logout",
+                           background: Color.red.opacity(0.75),
+                           action: {
             viewModel.logoutUser()
-          }.frame(maxWidth: .infinity)
-            .padding(8.0)
-            .background(Color.red.opacity(0.25))
-            .foregroundStyle(.black)
-            .clipShape(.buttonBorder)
+          })
+          
         }
         .navigationDestination(for: NavigationPaths.self) { value in
           switch value {

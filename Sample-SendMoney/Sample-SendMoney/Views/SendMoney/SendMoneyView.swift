@@ -33,20 +33,23 @@ struct SendMoneyView: View {
           ProgressView()
             .progressViewStyle(.circular)
         }
-        Button("Send") {
+        
+        HorizontalButton(title: "Send",
+                         background: viewModel.isLoading ? Color.gray.opacity(0.75) :
+                                                           Color.green.opacity(0.75),
+                         disabled: viewModel.isLoading,
+                         action: {
+          
           viewModel.didAttemptToSendMoney = true
+          
           if(viewModel.isSendMoneyValid) {
             viewModel.didAttemptToSendMoney = false
             Task {
               try await viewModel.sendMoney(amount: viewModel.amountToSend)
             }
           }
-        }.frame(maxWidth: .infinity)
-          .padding(8.0)
-          .background(viewModel.isLoading ? Color.gray.opacity(0.25) : Color.green.opacity(0.25))
-          .foregroundStyle(.black)
-          .clipShape(.buttonBorder)
-          .disabled(viewModel.isLoading)
+          
+        })
       }
     }
     .padding(.horizontal, 16.0)
