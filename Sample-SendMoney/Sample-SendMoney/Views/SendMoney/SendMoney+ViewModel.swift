@@ -17,6 +17,9 @@ extension SendMoneyView {
     @Published var didAttemptToSendMoney = false
     
     @AppStorage("userBalance") var userBalance: Double = 1000.0
+    @AppStorage("loggedInUser") var loggedInUser: String = "user"
+    
+    private let networkManager = NetworkManager(baseURL: "https://jsonplaceholder.typicode.com")
     
     private var transaction: Transaction?
     
@@ -28,8 +31,31 @@ extension SendMoneyView {
       return (amountToSend > 0) && (amountToSend <= userBalance)
     }
     
-    func constructTransaction() {
+    @MainActor func sendMoney(amount: Double) async throws {
+      defer {
+        isLoading = false
+        shouldShowTransactionResultSheet = true
+      }
       
+      isLoading = true
+      let mockTransaction = MockTransaction(id: 999,
+                                            title: "Sample-SendMoney",
+                                            body: "This is a sample transaction",
+                                            userId: loggedInUser)
+      do {
+        let _: MockTransaction = try await networkManager.post(endpoint: "/posts",
+                                                               body: mockTransaction)
+        userBalance -= amountToSend
+      } catch {
+        self.error = error
+      }
     }
   }
+  
+  private struct MockTransaction: Codable, Identifiable {
+    let id: Int
+    let title: String
+    let body: String
+    let userId: String
+}
 }

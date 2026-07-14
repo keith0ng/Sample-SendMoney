@@ -19,39 +19,45 @@ struct SendMoneyView: View {
           TextField("0.00",
                     value: $viewModel.amountToSend,
                     format: .currency(code: "PHP")
-                            .precision(.fractionLength(2)))
+            .precision(.fractionLength(2)))
         }.font(.title)
           .bold()
         if viewModel.shouldShowSendMoneyFieldError {
           Text("Send a proper amount").frame(maxWidth: .infinity,
                                              alignment: .leading)
-                                      .foregroundStyle(.red)
+          .foregroundStyle(.red)
         }
       }
-      if viewModel.isLoading {
-          
-      } else if viewModel.error != nil {
-        
-      } else {
+      ZStack {
+        if viewModel.isLoading {
+          ProgressView()
+            .progressViewStyle(.circular)
+        }
         Button("Send") {
           viewModel.didAttemptToSendMoney = true
           if(viewModel.isSendMoneyValid) {
-            viewModel.userBalance -= viewModel.amountToSend
-            viewModel.shouldShowTransactionResultSheet = true
-            viewModel.amountToSend = 0.0
+            Task {
+              try await viewModel.sendMoney(amount: viewModel.amountToSend)
+            }
           }
         }.frame(maxWidth: .infinity)
           .padding(8.0)
-          .background(Color.green.opacity(0.25))
+          .background(viewModel.isLoading ? Color.gray.opacity(0.25) : Color.green.opacity(0.25))
           .foregroundStyle(.black)
           .clipShape(.buttonBorder)
+          .disabled(viewModel.isLoading)
       }
     }
     .padding(.horizontal, 16.0)
-    .sheet(isPresented: $viewModel.shouldShowTransactionResultSheet) {
+    .sheet(isPresented: $viewModel.shouldShowTransactionResultSheet,
+           onDismiss: {
+      if viewModel.error == nil {
+        viewModel.amountToSend = 0.0
+      }
+    }) {
       let sendMoneyResultSheetViewModel = SendMoneyResultSheet.ViewModel(
         sentAmount: viewModel.amountToSend,
-        error: nil)
+        error: viewModel.error)
       SendMoneyResultSheet(viewModel: sendMoneyResultSheetViewModel).presentationDetents([.medium])
     }
   }
