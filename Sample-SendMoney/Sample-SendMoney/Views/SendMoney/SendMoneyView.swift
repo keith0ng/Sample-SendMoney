@@ -29,14 +29,9 @@ struct SendMoneyView: View {
         }
       }
       ZStack {
-        if viewModel.isLoading {
-          ProgressView()
-            .progressViewStyle(.circular)
-        }
-        
         HorizontalButton(title: "Send",
                          background: viewModel.isLoading ? Color.gray.opacity(0.75) :
-                                                           Color.green.opacity(0.75),
+                                                           Color.green,
                          disabled: viewModel.isLoading,
                          action: {
           
@@ -48,8 +43,13 @@ struct SendMoneyView: View {
               try await viewModel.sendMoney(amount: viewModel.amountToSend)
             }
           }
-          
+
         })
+        
+        if viewModel.isLoading {
+          ProgressView()
+            .progressViewStyle(.circular)
+        }
       }
     }
     .padding(.horizontal, 16.0)

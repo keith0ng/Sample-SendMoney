@@ -30,7 +30,6 @@ struct LoginView: View {
       }
       
       VStack {
-        
         SecureField("Password", text: $viewModel.password).textFieldStyle(RoundedBorderTextFieldStyle())
         if viewModel.shouldShowPasswordError {
           Text("Password cannot be empty").frame(maxWidth: .infinity,
@@ -41,11 +40,6 @@ struct LoginView: View {
       
       VStack {
         ZStack {
-          if viewModel.isLoading {
-            ProgressView()
-              .progressViewStyle(.circular).tint(.white)
-          }
-
           HorizontalButton(title: "Login",
                            background: viewModel.isLoading ? Color.gray :
                                                              Color.green,
@@ -62,7 +56,13 @@ struct LoginView: View {
             }
             
           })
+          
+          if viewModel.isLoading {
+            ProgressView()
+              .progressViewStyle(.circular).tint(.white)
+          }
         }
+        
         
         if viewModel.error != nil {
           Text("There's an error logging in.").frame(maxWidth: .infinity,
