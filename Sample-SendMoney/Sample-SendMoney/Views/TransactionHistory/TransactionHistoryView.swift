@@ -9,23 +9,52 @@ import SwiftUI
 
 struct TransactionHistoryView: View {
   
-  var viewModel = ViewModel()
+  @ObservedObject var viewModel = ViewModel()
   
   var body: some View {
-    if viewModel.isLoading {
-      ProgressView().progressViewStyle(.circular)
-    } else if viewModel.error != nil {
-      
-    } else {
-      List {
-        ForEach(viewModel.transactions, id: \.id) { transaction in
-          
-          let transactionListItemViewModel = TransactionListItemView.ViewModel(
-            transaction: transaction)
-          
-          TransactionListItemView(viewModel: transactionListItemViewModel)
+    ZStack {
+      if viewModel.transactions.isEmpty && !viewModel.isLoading {
+        VStack(spacing: 4.0) {
+          Text("No results found.").font(.subheadline).bold()
+          Button {
+            Task {
+              await viewModel.fetchTransactions()
+            }
+          } label: {
+            Image(systemName: "arrow.clockwise")
+              .foregroundStyle(.black)
+              .fontWeight(.medium)
+          }
+        }
+      } else if viewModel.isLoading {
+        ProgressView()
+          .progressViewStyle(.circular)
+          .scaleEffect(2.0,
+                       anchor: .center)
+      } else if viewModel.error != nil {
+        VStack(spacing: 4.0) {
+          Text("There's been an error loading this page.").font(.subheadline).bold()
+          Button {
+            Task {
+              await viewModel.fetchTransactions()
+            }
+          } label: {
+            Image(systemName: "arrow.clockwise")
+              .foregroundStyle(.black)
+              .fontWeight(.medium)
+          }
+        }
+      } else {
+        List {
+          ForEach(viewModel.transactions, id: \.id) { transaction in
+            let transactionListItemViewModel = TransactionListItemView.ViewModel(
+              transaction: transaction)
+            TransactionListItemView(viewModel: transactionListItemViewModel)
+          }
         }
       }
+    }.task {
+      await viewModel.fetchTransactions()
     }
   }
 }

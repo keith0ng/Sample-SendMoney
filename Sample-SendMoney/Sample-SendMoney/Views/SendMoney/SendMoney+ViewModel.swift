@@ -29,10 +29,7 @@ extension SendMoneyView {
     }
     
     func constructTransaction() {
-      transaction = Transaction(id: UUID().uuidString,
-                                recepient: "Test",
-                                amount: amountToSend,
-                                date: "July 13, 2026")
+      
     }
   }
 }

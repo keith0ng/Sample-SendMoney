@@ -12,16 +12,19 @@ struct TransactionListItemView: View {
   
   var body: some View {
     VStack(alignment: .leading, spacing: 8.0) {
+      
+      
+      VStack(alignment: .leading) {
+        Text("Recepient:").font(.headline).bold()
+        Text(viewModel.transaction.name)
+        Text("@\(viewModel.transaction.username)")
+      }
+      
       HStack {
         Text("Amount:").font(.headline).bold()
         Text(viewModel.transaction.amount,
              format: .currency(code: "PHP")
                       .precision(.fractionLength(2)))
-      }
-      
-      HStack {
-        Text("Recepient:").font(.headline).bold()
-        Text(viewModel.transaction.recepient)
       }
       
       HStack {
