@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// A reusable button that spans the whole width of the container.
 struct HorizontalButton: View {
   let title: String
   var background: Color = .white

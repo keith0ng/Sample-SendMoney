@@ -13,6 +13,7 @@ struct DashboardView: View {
   
   var body: some View {
     NavigationStack(path: $viewModel.path) {
+      // MARK: -- Error state view
       if viewModel.error != nil {
         VStack(spacing: 4.0) {
           Text(String(localized: "pageLoadError")).font(.subheadline).bold()
@@ -28,15 +29,14 @@ struct DashboardView: View {
         }
       } else {
         VStack(alignment: .leading, spacing: 16.0) {
-          
           let balanceViewModel = BalanceView.ViewModel(balance: viewModel.userBalance,
                                                        isBalanceExposed: viewModel.isBalanceExposed,
                                                        isLoading: viewModel.isLoading,
                                                        error: viewModel.error)
           HStack {
-            // Balance view
+            // MARK: -- Balance label
             BalanceView(viewModel: balanceViewModel).frame(maxWidth: .infinity, alignment: .leading)
-            // Mask balance button
+            // MARK: -- Mask and reload button
             Button {
               viewModel.isBalanceExposed.toggle()
             } label: {
@@ -47,7 +47,6 @@ struct DashboardView: View {
                 .disabled(viewModel.isLoading || viewModel.error != nil)
             }
             
-            // Refetch balance button
             Button {
               Task {
                 await viewModel.fetchBalance()
@@ -60,8 +59,8 @@ struct DashboardView: View {
             }
           }
           
+          // MARK: -- Send and transactions button
           HStack {
-            // Send Button
             TileButton(title: String(localized: "send"),
                        systemImageName: "arrow.up.forward",
                        background: Color.green.opacity(0.75),
@@ -77,6 +76,7 @@ struct DashboardView: View {
             })
           }
           
+          // MARK: -- Logout button
           HorizontalButton(title: String(localized: "logout"),
                            background: Color.red.opacity(0.75),
                            action: {
@@ -85,6 +85,7 @@ struct DashboardView: View {
           
         }
         .navigationDestination(for: NavigationPaths.self) { value in
+          // MARK: -- Navigation
           switch value {
           case .sendMoney:
             SendMoneyView()

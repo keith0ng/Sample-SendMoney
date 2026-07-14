@@ -12,14 +12,14 @@ struct TransactionListItemView: View {
   
   var body: some View {
     VStack(alignment: .leading, spacing: 8.0) {
-      
-      
+      // MARK: -- Recepient details
       VStack(alignment: .leading) {
         Text("\(String(localized: "recepient")):").font(.headline).bold()
         Text(viewModel.transaction.name)
         Text("@\(viewModel.transaction.username)")
       }
       
+      // MARK: -- Amount
       HStack {
         Text("\(String(localized: "amount")):").font(.headline).bold()
         Text(viewModel.transaction.amount,
@@ -27,6 +27,7 @@ struct TransactionListItemView: View {
                       .precision(.fractionLength(2)))
       }
       
+      // MARK: -- Date
       HStack {
         Text("\(String(localized: "date")):").font(.headline).bold()
         Text(viewModel.formattedDate ?? viewModel.transaction.date)

@@ -26,9 +26,14 @@
 "amount" = "Amount";
 "enterValidAmountError" = "Please enter a valid amount.";
 
+// Send Money Result Sheet
+"sendFailedPrompt" = "Sending failed.";
+"refundedPrompt" = "You are refunded.";
+"success" = "Success";
+"wasSent" = "was sent";
+
 
 // Transactions
-
 "recepient" = "Recepient";
 "date" = "Date";
 

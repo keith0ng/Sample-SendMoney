@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-
+/// A reusable view that can be used as a tile and also responds to tap.
 struct TileButton: View {
   let title: String
   var systemImageName: String = ""

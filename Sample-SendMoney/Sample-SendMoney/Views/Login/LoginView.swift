@@ -13,38 +13,31 @@ struct LoginView: View {
   
   var body: some View {
     VStack(alignment: .center, spacing: 16.0) {
-      
+      // MARK: -- Header Icon
       Image(systemName: "lock.circle")
         .foregroundStyle(.green)
         .fontWeight(.medium)
         .font(.largeTitle)
         .bold()
       
-      VStack {
-        TextField(String(localized: "username"),
-                  text: $viewModel.username).textFieldStyle(RoundedBorderTextFieldStyle())
-        if viewModel.shouldShowUsernameError {
-          Text(String(localized: "usernameEmptyError")).frame(maxWidth: .infinity,
-                                                 alignment: .leading)
-          .foregroundStyle(.red)
-        }
-      }
+      // MARK: -- Fields
+      RoundedRectangleField(text: $viewModel.username,
+                            placeholder: String(localized: "username"),
+                            errorText: viewModel.shouldShowUsernameError ?
+                            String(localized: "usernameEmptyError") : nil)
       
-      VStack {
-        SecureField(String(localized: "password"),
-                    text: $viewModel.password).textFieldStyle(RoundedBorderTextFieldStyle())
-        if viewModel.shouldShowPasswordError {
-          Text(String(localized: "passwordEmptyError")).frame(maxWidth: .infinity,
-                                                 alignment: .leading)
-          .foregroundStyle(.red)
-        }
-      }
+      RoundedRectangleField(text: $viewModel.username,
+                            placeholder: String(localized: "password"),
+                            isSecureField: true,
+                            errorText: viewModel.shouldShowUsernameError ?
+                            String(localized: "passwordEmptyError") : nil)
       
+      // MARK: -- Login Button
       VStack {
         ZStack {
           HorizontalButton(title: String(localized: "login"),
                            background: viewModel.isLoading ? Color.gray :
-                                                             Color.green,
+                            Color.green,
                            disabled: viewModel.isLoading,
                            action: {
             
@@ -67,7 +60,7 @@ struct LoginView: View {
         
         if viewModel.error != nil {
           Text(String(localized: "loginError")).frame(maxWidth: .infinity,
-                                                     alignment: .leading)
+                                                      alignment: .center)
           .foregroundStyle(.red)
         }
       }

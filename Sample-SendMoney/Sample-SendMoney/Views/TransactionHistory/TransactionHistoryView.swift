@@ -12,7 +12,10 @@ struct TransactionHistoryView: View {
   @ObservedObject var viewModel = ViewModel()
   
   var body: some View {
+    // MARK: -- Empty State
     ZStack {
+      // Only show the empty state when the transactions is
+      // actually empty after the view has stopped loading.
       if viewModel.transactions.isEmpty && !viewModel.isLoading {
         VStack(spacing: 4.0) {
           Text(String(localized: "emptyQuery")).font(.subheadline).bold()
@@ -27,11 +30,10 @@ struct TransactionHistoryView: View {
           }
         }
       } else if viewModel.isLoading {
-        ProgressView()
-          .progressViewStyle(.circular)
-          .scaleEffect(2.0,
-                       anchor: .center)
+        // MARK: -- Loading state
+        ProgressView().progressViewStyle(.circular).scaleEffect(2.0, anchor: .center)
       } else if viewModel.error != nil {
+        // MARK: -- Error state
         VStack(spacing: 4.0) {
           Text(String(localized: "pageLoadError")).font(.subheadline).bold()
           Button {
@@ -45,6 +47,7 @@ struct TransactionHistoryView: View {
           }
         }
       } else {
+        // MARK: -- Normal state
         List {
           ForEach(viewModel.transactions, id: \.id) { transaction in
             let transactionListItemViewModel = TransactionListItemView.ViewModel(

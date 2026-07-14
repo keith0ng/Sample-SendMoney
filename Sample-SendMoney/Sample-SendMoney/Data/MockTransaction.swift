@@ -7,7 +7,7 @@
 
 import Foundation
 
-/// This is only for the purpose of simulating sending a POST request
+// This is only for the purpose of simulating sending a POST request
 struct MockTransaction: Codable, Identifiable {
   let id: Int
   let title: String

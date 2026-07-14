@@ -13,6 +13,7 @@ struct SendMoneyView: View {
   
   var body: some View {
     VStack(alignment: .leading, spacing: 16.0) {
+      // MARK: -- Send Money input field
       VStack {
         HStack {
           Text("\(String(localized: "amount")):")
@@ -29,6 +30,7 @@ struct SendMoneyView: View {
           .foregroundStyle(.red)
         }
       }
+      // MARK: -- Send button
       ZStack {
         HorizontalButton(title: String(localized: "send"),
                          background: viewModel.isLoading ? Color.gray.opacity(0.75) :
@@ -54,6 +56,7 @@ struct SendMoneyView: View {
       }
     }
     .padding(.horizontal, 16.0)
+    // MARK: -- Result Sheet
     .sheet(isPresented: $viewModel.shouldShowTransactionResultSheet,
            onDismiss: {
       if viewModel.error == nil {

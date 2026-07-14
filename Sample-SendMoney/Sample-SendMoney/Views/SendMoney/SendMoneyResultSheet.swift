@@ -15,30 +15,33 @@ struct SendMoneyResultSheet: View {
   var body: some View {
     NavigationView {
       VStack(alignment: .center) {
+        // MARK: -- Error state
         if viewModel.error != nil {
           Image(systemName: "x.circle")
             .foregroundStyle(.red)
             .fontWeight(.medium)
             .font(.title)
-          Text("Sending failed.").font(.title).bold()
+          Text(String(localized: "sendFailPrompt")).font(.title).bold()
           HStack {
-            Text("You are refunded").font(.headline).bold()
+            Text(String(localized: "refundedPrompt")).font(.headline).bold()
           }
         } else {
+          // MARK: -- Success state
           Image(systemName: "checkmark.circle")
             .foregroundStyle(.green)
             .fontWeight(.medium)
             .font(.title)
             .bold()
-          Text("Success!").font(.title).bold()
+          Text("\(String(localized: "success"))!").font(.title).bold()
           HStack {
             Text(viewModel.sentAmount,
                  format: .currency(code: Constants.defaultCurrency)
               .precision(.fractionLength(2))).font(.title).bold()
-            Text("was sent!").font(.title).bold()
+            Text("\(String(localized: "wasSent"))!").font(.title).bold()
           }
         }
       }
+      // MARK: -- Dismiss button
       .toolbar {
         ToolbarItem(placement: .topBarLeading) {
           Button {
