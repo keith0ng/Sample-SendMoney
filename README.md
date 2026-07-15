@@ -50,8 +50,9 @@ Sample-SendMoney
 ## Setup
 
 1. Clone the repository.
-2. Open `Sample-SendMoney.xcodeproj`.
-3. Build and run using Xcode.
+2. Checkout `development` branch
+3. Open `Sample-SendMoney.xcodeproj`.
+4. Build and run using Xcode.
 
 ## Running Tests
 
