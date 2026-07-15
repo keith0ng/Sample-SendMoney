@@ -62,7 +62,8 @@ Press **⌘U** in Xcode or go to **Product > Test**
 
 - Loading, Empty and Error States are handled for screens.
 - Page error displays a generic error.
-- Data local caching wasn't managed.
+- UI/UX Design.
+- Fetch on Dashboard page to be able to top up the user balance.
 - Authentication is mocked.
 
 ## Known Limitations
