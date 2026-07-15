@@ -56,7 +56,7 @@ Sample-SendMoney
 
 ## Running Tests
 
-Press **⌘U** in Xcode or go to Product > Test
+Press **⌘U** in Xcode or go to **Product > Test**
 
 ## Assumptions
 
