@@ -6,6 +6,9 @@ Sample-SendMoney app is built using Swift and SwiftUI with an MVVM architecture.
 
 Sample-SendMoney is specifically made to practice my skills especially on SwiftUI and MVVM architecture.
 
+The high level wireframe and UI documentation can be found [here](https://drive.google.com/file/d/17sn7vGUYmeK7gwznqoYyiKMfiQUyhZQK/view?usp=sharing).
+
+
 ## Features
 
 - Login
