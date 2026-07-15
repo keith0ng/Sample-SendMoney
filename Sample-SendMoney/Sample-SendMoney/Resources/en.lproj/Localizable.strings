@@ -1,0 +1,44 @@
+/* 
+  Localizable.strings
+  Sample-SendMoney
+
+  Created by Keith Samson on 7/14/26.
+
+*/
+
+// Login
+"login" = "Login";
+"username" = "Username";
+"password" = "Password";
+"usernameEmptyError" = "Username cannot be empty.";
+"passwordEmptyError" = "Password cannot be empty.";
+"loginError" = "There's an error logging in.";
+
+// Dashboard
+"dashboard" = "Dashboard";
+"transactions" = "Transactions";
+"logout" = "Logout";
+"balance" = "Balance";
+"balanceDisplayError" = "There's a problem showing your balance.";
+"balanceMask" = "₱*****";
+
+// Send Money
+"amount" = "Please enter amount to send";
+"enterValidAmountError" = "Please enter a valid amount.";
+
+// Send Money Result Sheet
+"sendFailedPrompt" = "Sending failed.";
+"refundedPrompt" = "You are refunded.";
+"success" = "Success";
+"wasSent" = "was sent";
+
+
+// Transactions
+"recepient" = "Recepient";
+"date" = "Date";
+
+// General
+"emptyQuery" = "No results found.";
+"pageLoadError" = "There's been an error loading this page.";
+"send" = "Send";
+
