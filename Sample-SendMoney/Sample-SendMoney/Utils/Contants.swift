@@ -8,6 +8,8 @@
 import Foundation
 
 struct Constants {
+  // API URL should be on a Secrets file which should not be commited on repositories.
+  // For the purpose of this sample application, it is placed here.
   static let apiUrl = "https://jsonplaceholder.typicode.com"
   static let defaultUserBalance = 1000.0
   static let defaultUsername = "user"
